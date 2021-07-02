@@ -84,4 +84,9 @@ public class PlayerScript : MonoBehaviour
         allowJump = false;
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        playerRb.velocity = Vector2.up * 0;
+    }
+
 }
