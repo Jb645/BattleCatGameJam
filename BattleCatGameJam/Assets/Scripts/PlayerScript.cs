@@ -30,7 +30,7 @@ public class PlayerScript : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-            transform.Translate(Vector2.right * speed * Time.deltaTime);
+            transform.position = (Vector2.right * speed * Time.deltaTime); 
         }
     }
 }
