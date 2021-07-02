@@ -24,7 +24,7 @@ public class PlayerScript : MonoBehaviour
     private void FixedUpdate()
     {
         //jump
-        if (allowJump && Input.GetKeyDown(KeyCode.Space)){
+        if (allowJump && Input.GetKey(KeyCode.Space)){
 
             playerRb.velocity = Vector2.up * jump;
         }
@@ -37,6 +37,22 @@ public class PlayerScript : MonoBehaviour
         {
         transform.Translate(Vector2.left * speed * Time.deltaTime); 
         }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        allowJump = true;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        StartCoroutine(CoyoteTime());
+    }
+
+    IEnumerator CoyoteTime()
+    {
+        yield return new WaitForSeconds(0.05f);
+        allowJump = false;
     }
 
 }
