@@ -7,7 +7,7 @@ public class Rewind : MonoBehaviour
 
     public bool isRewinding;
 
-    List<Vector2> positions;
+    List<MultiValueForRewind> multiValueForRewinds;
 
     Rigidbody2D rb;
 
@@ -16,7 +16,7 @@ public class Rewind : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        positions = new List<Vector2>();
+        multiValueForRewinds = new List<MultiValueForRewind>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -55,19 +55,20 @@ public class Rewind : MonoBehaviour
 
     void Record()
     {
-        if (positions.Count > Mathf.Round(recordTime / Time.fixedDeltaTime))
+        if (multiValueForRewinds.Count > Mathf.Round(recordTime / Time.fixedDeltaTime))
         {
-            positions.RemoveAt(positions.Count - 1);
+            multiValueForRewinds.RemoveAt(multiValueForRewinds.Count - 1);
         }
-        positions.Insert(0, transform.position);
+        multiValueForRewinds.Insert(0, new MultiValueForRewind(transform.position, 0, false));
     }
 
     void RewindLol()
     {
-        if (positions.Count > 0)
+        if (multiValueForRewinds.Count > 0)
         {
-            transform.position = positions[0];
-            positions.RemoveAt(0);
+            MultiValueForRewind value = multiValueForRewinds[0];
+            transform.position = value.positions;
+            multiValueForRewinds.RemoveAt(0);
             rb.velocity = Vector2.up * 0;
             rb.velocity = Vector2.left * 0;
         }
