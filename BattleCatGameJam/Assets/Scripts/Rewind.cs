@@ -26,6 +26,7 @@ public class Rewind : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //start to rewind when your att y -4
         if (transform.position.y < -4)
         {
             StartRewind();
@@ -34,18 +35,21 @@ public class Rewind : MonoBehaviour
 
     public void StartRewind()
     {
+        //starting rewind
         isRewinding = true;
         rb.isKinematic = true;
     }
 
     public void StopRewinding()
     {
+        //stoprewinding
         isRewinding = false;
         rb.isKinematic = false;
     }
 
     private void FixedUpdate()
     {
+        //rewind or record
         if (isRewinding)
         {
             RewindLol();
@@ -58,6 +62,7 @@ public class Rewind : MonoBehaviour
 
     void Record()
     {
+        //gets thier position
         if (menus.playing)
         {
             if (multiValueForRewinds.Count > Mathf.Round(recordTime / Time.fixedDeltaTime))
@@ -71,6 +76,8 @@ public class Rewind : MonoBehaviour
 
     void RewindLol()
     {
+       
+        //rewinds the player position
         if (menus.playing)
         {
             if (multiValueForRewinds.Count > 0)
@@ -83,6 +90,7 @@ public class Rewind : MonoBehaviour
             }
             else
             {
+                //stops the rewind if thier isnt anything more to rewind
                 StopRewinding();
             }
         }

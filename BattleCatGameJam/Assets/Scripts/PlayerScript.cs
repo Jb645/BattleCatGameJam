@@ -88,6 +88,7 @@ public class PlayerScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //stops your verlociy on collion with an object
         playerRb.velocity = Vector2.up * 0;
 
       

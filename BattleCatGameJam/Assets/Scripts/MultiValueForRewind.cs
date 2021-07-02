@@ -10,6 +10,7 @@ public class MultiValueForRewind
     public bool jump;
     
 
+    //used to put them all in one list
     public MultiValueForRewind (Vector2 _positions, float _speed, bool _jump)
     {
         positions = _positions;

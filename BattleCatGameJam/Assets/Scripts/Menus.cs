@@ -28,14 +28,17 @@ namespace BattleCat
         // Update is called once per frame
         void Update()
         {
+            //exiting menus and opening the pausemenu
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 if (settings.activeInHierarchy)
                 {
+                    //close settings
                     settings.SetActive(false);
                 }
                 else if (pauseMenu.activeInHierarchy == true)
                 {
+                    //exiting pausemenu
                     pauseMenu.SetActive(false);
                     playing = true;
                     playerRb.isKinematic = false;
@@ -43,8 +46,10 @@ namespace BattleCat
                 }
                 else if (pauseMenu.activeInHierarchy == false)
                 {
+                    //opening pause menu
                     pauseMenu.SetActive(true);
                     playing = false;
+                    //used to block movement
                     playerRb.isKinematic = true;
                     pausePlace = player.transform.position;
                 }
@@ -56,6 +61,7 @@ namespace BattleCat
         {
             if (!playing)
             {
+                //setting the paused players position
                 player.transform.position = pausePlace;
             }
         }
