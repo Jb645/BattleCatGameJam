@@ -12,6 +12,7 @@ namespace BattleCat
         Rigidbody2D playerRb;
         GameObject player;
         Vector2 pausePlace;
+        [SerializeField] GameObject settings;
 
         // Start is called before the first frame update
         void Start()
@@ -25,7 +26,11 @@ namespace BattleCat
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if(pauseMenu.activeInHierarchy == true)
+                if (settings.activeInHierarchy)
+                {
+                    settings.SetActive(false);
+                }
+                else if (pauseMenu.activeInHierarchy == true)
                 {
                     pauseMenu.SetActive(false);
                     playing = true;
@@ -34,11 +39,12 @@ namespace BattleCat
                 }
                 else if (pauseMenu.activeInHierarchy == false)
                 {
-                    pauseMenu.SetActive(true); 
+                    pauseMenu.SetActive(true);
                     playing = false;
                     playerRb.isKinematic = true;
                     pausePlace = player.transform.position;
                 }
+
             }
         }
 
@@ -48,6 +54,11 @@ namespace BattleCat
             {
                 player.transform.position = pausePlace;
             }
+        }
+
+        public void ShowSettings()
+        {
+            settings.SetActive(true);
         }
 
 
