@@ -77,7 +77,7 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    //allows jumps for 3 more frames after they jumped
+    //allows jumps for 3 more frames after they jumped 
     IEnumerator CoyoteTime()
     {
         yield return new WaitForSeconds(0.05f);
