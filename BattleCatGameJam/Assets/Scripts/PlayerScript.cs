@@ -10,10 +10,12 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] bool allowJump;
     Rigidbody2D playerRb;
     bool isOnGround;
+    BattleCat.Menus menu;
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody2D>();
+        menu = GameObject.Find("MenuHandler").GetComponent<BattleCat.Menus>();
         allowJump = true;
     }
 
@@ -26,7 +28,7 @@ public class PlayerScript : MonoBehaviour
     private void FixedUpdate()
     {
         //jump
-        if (allowJump && Input.GetKey(KeyCode.Space)){
+        if (allowJump && Input.GetKey(KeyCode.Space) && menu.playing){
 
             if (isOnGround)
             {
@@ -41,11 +43,11 @@ public class PlayerScript : MonoBehaviour
 
         }
         //walk right
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) && menu.playing)
         {
             transform.Translate(Vector2.right * speed * Time.deltaTime); 
         }
-        else if (Input.GetKey(KeyCode.A))
+        else if (Input.GetKey(KeyCode.A) && menu.playing)
         {
         transform.Translate(Vector2.left * speed * Time.deltaTime); 
         }
