@@ -54,7 +54,7 @@ public class PlayerScript : MonoBehaviour
     private void OnCollisionStay2D(Collision2D collision)
     {
         //on collions stay
-        allowJump = true;
+ 
         isOnGround = true;
     }
 
@@ -87,6 +87,14 @@ public class PlayerScript : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         playerRb.velocity = Vector2.up * 0;
+        StartCoroutine(AllowsJump());
+      
+    }
+
+    IEnumerator AllowsJump()
+    {
+        yield return new WaitForSeconds(0.1f);
+        allowJump = true;
     }
 
 }
