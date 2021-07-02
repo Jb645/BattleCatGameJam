@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 namespace BattleCat
 {
@@ -13,6 +15,8 @@ namespace BattleCat
         GameObject player;
         Vector2 pausePlace;
         [SerializeField] GameObject settings;
+        [SerializeField] AudioMixer music;
+        [SerializeField] AudioMixer soundEffects;
 
         // Start is called before the first frame update
         void Start()
@@ -61,6 +65,20 @@ namespace BattleCat
             settings.SetActive(true);
         }
 
+        public void ChangeSound(float volume)
+        {
+            music.SetFloat("Sound", volume);
+        }
+
+        public void ChangeSoundOnEffects(float volume)
+        {
+            soundEffects.SetFloat("Sound", volume);
+        }
+
+        public void Restart()
+        {
+            Scene Scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(Scene.name);
+        }
 
     }
 }
