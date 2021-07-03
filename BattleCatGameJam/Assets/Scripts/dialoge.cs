@@ -21,11 +21,13 @@ namespace BattleCat
 
         [SerializeField] GameObject dialogue;
 
-        [SerializeField] Menus menu;
+       Menus menu;
 
         List<string> pog;
         private void Awake()
         {
+            menu = GetComponent<Menus>();
+            
             List<string> text = new List<string>();
             text.Add(start);
             text.Add(lore);
@@ -36,6 +38,7 @@ namespace BattleCat
             text.Add(ins3);
 
             pog = text;
+
             
         }
         

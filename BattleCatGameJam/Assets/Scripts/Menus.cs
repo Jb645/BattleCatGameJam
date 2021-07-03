@@ -9,7 +9,7 @@ namespace BattleCat
     public class Menus : MonoBehaviour
     {
 
-        public bool playing = true;
+        public bool playing;
         [SerializeField] GameObject pauseMenu;
         Rigidbody2D playerRb;
         GameObject player;
@@ -21,8 +21,7 @@ namespace BattleCat
         // Start is called before the first frame update
         void Start()
         {
-            playerRb = GameObject.Find("Player").GetComponent<Rigidbody2D>();
-            player = GameObject.Find("Player");
+
         }
 
         // Update is called once per frame
@@ -84,6 +83,14 @@ namespace BattleCat
         public void Restart()
         {
             Scene Scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(Scene.name);
+        }
+
+
+        private void Awake()
+        {
+            playerRb = GameObject.Find("Player").GetComponent<Rigidbody2D>();
+            player = GameObject.Find("Player");
+            pausePlace = player.transform.position;
         }
 
     }
