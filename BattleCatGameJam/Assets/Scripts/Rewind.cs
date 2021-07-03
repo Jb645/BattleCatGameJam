@@ -32,7 +32,7 @@ public class Rewind : MonoBehaviour
     void Update()
     {
         //start to rewind when your att y -4
-        if (transform.position.y < -4 || transform.position.y > 15)
+        if (transform.position.y < -4)
         {
             StartRewind();
         }
