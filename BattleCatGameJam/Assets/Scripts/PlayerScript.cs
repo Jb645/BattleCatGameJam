@@ -1,144 +1,147 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerScript : MonoBehaviour
+namespace BattleCat
 {
-
-    [SerializeField] float speed = 1;
-    [SerializeField] float jump = 5;
-    [SerializeField] bool allowJump;
-    Rigidbody2D playerRb;
-    bool isOnGround;
-    BattleCat.Menus menu;
-    Animator animator;
-    public float moveing;
-    Rewind rewind;
-    public float latestDirection = 0;
-    AudioSource audioUwU;
-    GameObject player;
-    BattleCat.timer timerr;
-    BattleCat.dialoge dia;
-
-    // Start is called before the first frame update
-    void Start()
+    public class PlayerScript : MonoBehaviour
     {
-        playerRb = GetComponent<Rigidbody2D>();
-        menu = GameObject.Find("MenuHandler").GetComponent<BattleCat.Menus>();
-        allowJump = true;
-        animator = GetComponent<Animator>();
-        rewind = GetComponent<Rewind>();
-        audioUwU = GetComponent<AudioSource>();
-        player = GameObject.Find("Player");
-        timerr = player.GetComponent<BattleCat.timer>();
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-            animator.SetFloat("Move X", moveing);
-    }
+        [SerializeField] private float speed = 1;
+        [SerializeField] private float jump = 5;
+        [SerializeField] private bool allowJump;
+        private Rigidbody2D _playerRb;
+        private bool _isOnGround;
+        private BattleCat.Menus _menu;
+        private Animator _animator;
+        public float moving;
+        private Rewind _rewind;
+        public float latestDirection = 0;
+        private AudioSource _audioUwU;
+        private GameObject _player;
+        private BattleCat.timer _timer;
+        private BattleCat.dialoge _dia;
 
-    private void FixedUpdate()
-    {
-        //jump
-        if (allowJump && Input.GetKey(KeyCode.Space) && menu.playing){
+        // Start is called before the first frame update
+        private void Start()
+        {
+            _playerRb = GetComponent<Rigidbody2D>();
+            _menu = GameObject.Find("MenuHandler").GetComponent<BattleCat.Menus>();
+            allowJump = true;
+            _animator = GetComponent<Animator>();
+            _rewind = GetComponent<Rewind>();
+            _audioUwU = GetComponent<AudioSource>();
+            _player = GameObject.Find("Player");
+            _timer = _player.GetComponent<BattleCat.timer>();
+        }
 
-            if (isOnGround)
-            {
-                playerRb.velocity = Vector2.up * jump;
-                allowJump = false;
+        // Update is called once per frame
+        private void Update()
+        {
+            _animator.SetFloat("Move X", moving);
+        }
+
+        private void FixedUpdate()
+        {
+            //jump
+        
+            if (allowJump && Input.GetKey(KeyCode.Space) && _menu.playing){
+
+                if (_isOnGround)
+                {
+                    _playerRb.velocity = Vector2.up * jump;
+                    allowJump = false;
                 
-                if (latestDirection < 0)
-                {
-                    animator.SetTrigger("Jump Left");
-                }
-                else if (latestDirection > 0)
-                {
-                    animator.SetTrigger("Jump");
-                }
+                    if (latestDirection < 0)
+                    {
+                        _animator.SetTrigger("Jump Left");
+                    }
+                    else if (latestDirection > 0)
+                    {
+                        _animator.SetTrigger("Jump");
+                    }
 
 
+                }
+                else
+                {
+                    StartCoroutine(CheckForJump());
+                } 
+
+
+            }
+            //walk right
+            var canWalkRight = Input.GetKey(KeyCode.D) && _menu.playing && !_rewind.isRewinding;
+            if (canWalkRight)
+            {
+                transform.Translate(Vector2.right * (speed * Time.deltaTime));
+                moving = 1;
+                latestDirection = 0.025f;
             }
             else
             {
-                StartCoroutine(CheckForJump());
-            } 
+                var canWalkLeft = Input.GetKey(KeyCode.A) && _menu.playing && !_rewind.isRewinding;
+                if (canWalkLeft)
+                {
+                    transform.Translate(Vector2.left * (speed * Time.deltaTime));
+                    moving = 0;
+                    latestDirection = -0.025f;
+                }
+                else if (!_rewind.isRewinding)
+                {
+                    moving = 0.5f + latestDirection;
+                }
+            }
+        }
 
-
-        }
-        //walk right
-        if (Input.GetKey(KeyCode.D) && menu.playing && !rewind.isRewinding)
+        private void OnCollisionStay2D(Collision2D collision)
         {
-            transform.Translate(Vector2.right * speed * Time.deltaTime);
-            moveing = 1;
-            latestDirection = 0.025f;
-        }
-        else if (Input.GetKey(KeyCode.A) && menu.playing && !rewind.isRewinding)
-        {
-            transform.Translate(Vector2.left * speed * Time.deltaTime);
-            moveing = 0;
-            latestDirection = -0.025f;
-        }
-        else if (!rewind.isRewinding)
-        {
-            moveing = 0.5f + latestDirection;
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        //on collions stay
+            //on collions stay
  
-        isOnGround = true;
-        allowJump = true;    }
+            _isOnGround = true;
+            allowJump = true;    }
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        //when you exit the collion
-        StartCoroutine(CoyoteTime());
-        isOnGround = false;
-    }
-
-    IEnumerator CheckForJump()
-    {
-        //remeber jumps if they are 1 frame befor you can jump
-        
-        yield return new WaitForSeconds(0.1666f);
-        if (allowJump)
+        private void OnCollisionExit2D(Collision2D collision)
         {
-            playerRb.velocity = Vector2.up * jump;
+            //when you exit the collion
+            StartCoroutine(CoyoteTime());
+            _isOnGround = false;
+        }
+
+        IEnumerator CheckForJump()
+        {
+            //remeber jumps if they are 1 frame befor you can jump
+        
+            yield return new WaitForSeconds(0.1666f);
+            if (!allowJump) yield break;
+            _playerRb.velocity = Vector2.up * jump;
             allowJump = false;
         }
-    }
 
-    //allows jumps for 3 more frames after they jumped 
-    IEnumerator CoyoteTime()
-    {
-        yield return new WaitForSeconds(0.05f);
-        allowJump = false;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        //stops your verlociy on collion with an object
-        playerRb.velocity = Vector2.up * 0;
-
-        if (collision.gameObject.CompareTag("win"))
+        //allows jumps for 3 more frames after they jumped 
+        private IEnumerator CoyoteTime()
         {
-            timerr.addTime = false;
-            if (timerr.timePassed < 80)
+            yield return new WaitForSeconds(0.05f);
+            allowJump = false;
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            //stops your verlociy on collion with an object
+            _playerRb.velocity = Vector2.up * 0;
+
+            if (!collision.gameObject.CompareTag("win")) return;
+            _timer.timePasses = false;
+            if (_timer.timePassed < 80)
             {
-                animator.SetTrigger("die");
+                _animator.SetTrigger("die");
 
             }
 
         }
-      
-    }
 
-    public void PlaySound(AudioClip sound)
-    {
-        audioUwU.PlayOneShot(sound);
+        public void PlaySound(AudioClip sound)
+        {
+            _audioUwU.PlayOneShot(sound);
+        }
     }
 }

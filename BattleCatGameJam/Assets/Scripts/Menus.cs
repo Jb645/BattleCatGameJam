@@ -19,43 +19,33 @@ namespace BattleCat
         [SerializeField] AudioMixer soundEffects;
         timer timerr;
 
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
+        
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             //exiting menus and opening the pausemenu
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (!Input.GetKeyDown(KeyCode.Escape)) return;
+            
+            if (settings.activeInHierarchy) settings.SetActive(false);
+            else switch (pauseMenu.activeInHierarchy)
             {
-                if (settings.activeInHierarchy)
-                {
-                    //close settings
-                    settings.SetActive(false);
-                }
-                else if (pauseMenu.activeInHierarchy == true)
-                {
+                case true:
                     //exiting pausemenu
                     pauseMenu.SetActive(false);
                     playing = true;
                     playerRb.isKinematic = false;
-                    timerr.addTime = true;
-
-                }
-                else if (pauseMenu.activeInHierarchy == false)
-                {
+                    timerr.timePasses = true;
+                    break;
+                case false:
                     //opening pause menu
                     pauseMenu.SetActive(true);
                     playing = false;
                     //used to block movement
                     playerRb.isKinematic = true;
                     pausePlace = player.transform.position;
-                    timerr.addTime = false;
-                }
-
+                    timerr.timePasses = false;
+                    break;
             }
         }
 
@@ -85,7 +75,7 @@ namespace BattleCat
 
         public void Restart()
         {
-            Scene Scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(Scene.name);
+            var scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
         }
 
 
