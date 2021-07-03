@@ -15,7 +15,7 @@ namespace BattleCat
         [SerializeField] GameObject credits;
 
         // Start is called before the first frame update
-        void Start()  
+        void Start()
         {
         
         }
@@ -36,7 +36,7 @@ namespace BattleCat
 
         public void Credits()
         {
-            credits.SetActive(true);
+            credits.SetActive(true); 
         }
     }
 
