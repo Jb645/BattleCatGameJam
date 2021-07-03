@@ -49,7 +49,7 @@ public class PlayerScript : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.A) && menu.playing)
         {
-        transform.Translate(Vector2.left * speed * Time.deltaTime); 
+            transform.Translate(Vector2.left * speed * Time.deltaTime); 
         }
     }
 
