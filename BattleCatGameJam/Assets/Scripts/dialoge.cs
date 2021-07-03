@@ -19,7 +19,8 @@ namespace BattleCat
         string ins2 = "reach to end";
         string ins3 = "pwz UwU";
 
-        string final = "*dies* ty.";
+        string finalWin = "*dies* ty.";
+        string finalFail = "u did compleate it in under 80s, trash";
 
         [SerializeField] GameObject dialogue;
 
@@ -79,13 +80,6 @@ namespace BattleCat
 
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.CompareTag("win"))
-            {
-
-            }
-        }
 
     }
 
