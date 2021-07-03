@@ -18,6 +18,8 @@ namespace BattleCat
         string ins1 = "use Wasd + space to move me";
         string ins2 = "reach to end";
         string ins3 = "pwz UwU";
+        string sidenote = "oh, and btw unity or github delated some of our files and we cant";
+        string sidenote2 = "revert back, so if this isnt finished that prob why :(";
 
         string finalWin = "*dies* ty.";
         string finalFail = "u did compleate it in under 80s, trash";
@@ -39,6 +41,8 @@ namespace BattleCat
             text.Add(ins1);
             text.Add(ins2);
             text.Add(ins3);
+            text.Add(sidenote);
+            text.Add(sidenote2);
 
             pog = text;
 
