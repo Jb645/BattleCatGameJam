@@ -9,6 +9,8 @@ namespace BattleCat
     {
         [SerializeField] TextMeshProUGUI textOwO;
 
+        timer time;
+
         string start = "ello (prees space to continue)";
         string lore = "im jerry and im too poor (next)";
         string lore2 = "to die, so im asking (next)";
@@ -49,6 +51,7 @@ namespace BattleCat
             dialogue.SetActive(true);
             textOwO.text = pog[0];
             menu.playing = false;
+            time = GameObject.Find("Player").GetComponent<timer>();
         }
 
         // Update is called once per frame
@@ -64,6 +67,7 @@ namespace BattleCat
                 {
                     dialogue.SetActive(false);
                     menu.playing = true;
+                    time.addTime = true;
                 }
 
             }
