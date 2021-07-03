@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -722,11 +722,11 @@ CompositeCollider2D:
       - X: 0
         Y: -9999900
       - X: 0
-        Y: 9999900
+        Y: -100
       - X: 41
-        Y: 9999900
+        Y: -100
       - X: 100
-        Y: 9999959
+        Y: -41
       - X: 100
         Y: 29687520
       - X: 85
@@ -4779,6 +4779,8 @@ Tilemap:
   - m_RefCount: 2
     m_Data: {fileID: 6034864434333875764, guid: 20b6aca9951ee7c4a85fb746343def38,
       type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileMatrixArray:
   - m_RefCount: 374
     m_Data:
@@ -4822,8 +4824,8 @@ Tilemap:
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: -17, y: -8, z: 0}
-  m_Size: {x: 62, y: 19, z: 1}
+  m_Origin: {x: -17, y: -16, z: 0}
+  m_Size: {x: 62, y: 27, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
