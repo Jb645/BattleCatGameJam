@@ -7,7 +7,7 @@ namespace BattleCat
 {
     public class dialoge : MonoBehaviour
     {
-        [SerializeField] TextMeshProUGUI textOwO;
+        public  TextMeshProUGUI textOwO;
 
         timer time;
 
@@ -19,8 +19,8 @@ namespace BattleCat
         string ins2 = "reach to end";
         string ins3 = "pwz UwU";
 
-        string finalWin = "*dies* ty.";
-        string finalFail = "u did compleate it in under 80s, trash";
+        public string finalWin = "*dies* ty.";
+        public string finalFail = "u did compleate it in under 80s, trash";
 
         [SerializeField] GameObject dialogue;
 
