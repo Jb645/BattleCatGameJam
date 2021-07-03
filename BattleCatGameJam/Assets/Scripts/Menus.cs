@@ -17,6 +17,7 @@ namespace BattleCat
         [SerializeField] GameObject settings;
         [SerializeField] AudioMixer music;
         [SerializeField] AudioMixer soundEffects;
+        timer timerr;
 
         // Start is called before the first frame update
         void Start()
@@ -41,6 +42,7 @@ namespace BattleCat
                     pauseMenu.SetActive(false);
                     playing = true;
                     playerRb.isKinematic = false;
+                    timerr.addTime = true;
 
                 }
                 else if (pauseMenu.activeInHierarchy == false)
@@ -51,6 +53,7 @@ namespace BattleCat
                     //used to block movement
                     playerRb.isKinematic = true;
                     pausePlace = player.transform.position;
+                    timerr.addTime = false;
                 }
 
             }
@@ -91,6 +94,7 @@ namespace BattleCat
             playerRb = GameObject.Find("Player").GetComponent<Rigidbody2D>();
             player = GameObject.Find("Player");
             pausePlace = player.transform.position;
+            timerr = player.GetComponent<timer>();
         }
 
     }
