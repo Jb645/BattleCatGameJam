@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -32,7 +31,6 @@ public class PlayerScript : MonoBehaviour
         audioUwU = GetComponent<AudioSource>();
         player = GameObject.Find("Player");
         timerr = player.GetComponent<BattleCat.timer>();
-        dia = GameObject.Find("MenuHandler").GetComponent<BattleCat.dialoge>();
     }
 
     // Update is called once per frame
@@ -132,12 +130,7 @@ public class PlayerScript : MonoBehaviour
             if (timerr.timePassed < 80)
             {
                 animator.SetTrigger("die");
-                dia.textOwO.text = dia.finalWin;
 
-            }
-            else
-            {
-                dia.textOwO.text = dia.finalFail;
             }
 
         }
@@ -147,12 +140,5 @@ public class PlayerScript : MonoBehaviour
     public void PlaySound(AudioClip sound)
     {
         audioUwU.PlayOneShot(sound);
-    }
-
-    IEnumerator Restart()
-    {
-        yield return new WaitForSeconds(3);
-        Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
-
     }
 }
