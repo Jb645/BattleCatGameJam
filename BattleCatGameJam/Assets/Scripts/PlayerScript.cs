@@ -14,7 +14,7 @@ public class PlayerScript : MonoBehaviour
     Animator animator;
     public float moveing;
     Rewind rewind;
-    float latestDirection = 0;
+    public float latestDirection = 0;
     AudioSource audioUwU;
     // Start is called before the first frame update
     void Start()
@@ -30,7 +30,6 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!rewind.isRewinding)
             animator.SetFloat("Move X", moveing);
     }
 
@@ -48,7 +47,11 @@ public class PlayerScript : MonoBehaviour
                 {
                     animator.SetTrigger("Jump");
                 }
-                animator.SetTrigger("Jump left");
+                else
+                {
+                    animator.SetTrigger("Jump left");
+                }
+
             }
             else
             {
@@ -58,19 +61,19 @@ public class PlayerScript : MonoBehaviour
 
         }
         //walk right
-        if (Input.GetKey(KeyCode.D) && menu.playing)
+        if (Input.GetKey(KeyCode.D) && menu.playing && !rewind.isRewinding)
         {
             transform.Translate(Vector2.right * speed * Time.deltaTime);
             moveing = 1;
             latestDirection = 0.025f;
         }
-        else if (Input.GetKey(KeyCode.A) && menu.playing)
+        else if (Input.GetKey(KeyCode.A) && menu.playing && !rewind.isRewinding)
         {
             transform.Translate(Vector2.left * speed * Time.deltaTime);
             moveing = 0;
             latestDirection = -0.025f;
         }
-        else
+        else if (!rewind.isRewinding)
         {
             moveing = 0.5f + latestDirection;
         }

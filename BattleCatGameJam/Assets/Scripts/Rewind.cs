@@ -82,7 +82,7 @@ public class Rewind : MonoBehaviour
             {
                 multiValueForRewinds.RemoveAt(multiValueForRewinds.Count - 1);
             }
-            multiValueForRewinds.Insert(0, new MultiValueForRewind(transform.position, 0, false));
+            multiValueForRewinds.Insert(0, new MultiValueForRewind(transform.position, player.moveing, player.latestDirection));
         }
 
     }
@@ -101,6 +101,8 @@ public class Rewind : MonoBehaviour
                 multiValueForRewinds.RemoveAt(0);
                 rb.velocity = Vector2.up * 0;
                 rb.velocity = Vector2.left * 0;
+                player.moveing = value.moveing;
+                player.latestDirection = value.lastDirections;
             }
             else
             {
