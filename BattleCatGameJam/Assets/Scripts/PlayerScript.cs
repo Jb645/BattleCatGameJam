@@ -11,18 +11,25 @@ public class PlayerScript : MonoBehaviour
     Rigidbody2D playerRb;
     bool isOnGround;
     BattleCat.Menus menu;
+    Animator animator;
+    public float moveing;
+    Rewind rewind;
+    float latestDirection = 0;
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody2D>();
         menu = GameObject.Find("MenuHandler").GetComponent<BattleCat.Menus>();
         allowJump = true;
+        animator = GetComponent<Animator>();
+        rewind = GetComponent<Rewind>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if(!rewind.isRewinding)
+            animator.SetFloat("Move X", moveing);
     }
 
     private void FixedUpdate()
@@ -34,6 +41,12 @@ public class PlayerScript : MonoBehaviour
             {
                 playerRb.velocity = Vector2.up * jump;
                 allowJump = false;
+                
+                if (latestDirection == -0.25)
+                {
+                    animator.SetTrigger("Jump");
+                }
+                animator.SetTrigger("Jump left");
             }
             else
             {
@@ -45,11 +58,19 @@ public class PlayerScript : MonoBehaviour
         //walk right
         if (Input.GetKey(KeyCode.D) && menu.playing)
         {
-            transform.Translate(Vector2.right * speed * Time.deltaTime); 
+            transform.Translate(Vector2.right * speed * Time.deltaTime);
+            moveing = 1;
+            latestDirection = 0.025f;
         }
         else if (Input.GetKey(KeyCode.A) && menu.playing)
         {
-            transform.Translate(Vector2.left * speed * Time.deltaTime); 
+            transform.Translate(Vector2.left * speed * Time.deltaTime);
+            moveing = 0;
+            latestDirection = -0.025f;
+        }
+        else
+        {
+            moveing = 0.5f + latestDirection;
         }
     }
 
@@ -90,7 +111,6 @@ public class PlayerScript : MonoBehaviour
     {
         //stops your verlociy on collion with an object
         playerRb.velocity = Vector2.up * 0;
-
       
     }
 
