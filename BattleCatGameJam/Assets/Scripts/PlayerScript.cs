@@ -43,14 +43,15 @@ public class PlayerScript : MonoBehaviour
                 playerRb.velocity = Vector2.up * jump;
                 allowJump = false;
                 
-                if (latestDirection == -0.25)
+                if (latestDirection < 0)
+                {
+                    animator.SetTrigger("Jump Left");
+                }
+                else if (latestDirection > 0)
                 {
                     animator.SetTrigger("Jump");
                 }
-                else
-                {
-                    animator.SetTrigger("Jump left");
-                }
+
 
             }
             else
