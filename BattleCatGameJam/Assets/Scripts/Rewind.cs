@@ -14,6 +14,10 @@ public class Rewind : MonoBehaviour
     [SerializeField] float recordTime = 3f;
 
     private BattleCat.Menus menus;
+
+    PlayerScript player;
+    [SerializeField] AudioClip rewindSound;
+    bool hasPlayedSound;
     
     // Start is called before the first frame update
     void Start()
@@ -21,6 +25,7 @@ public class Rewind : MonoBehaviour
         multiValueForRewinds = new List<MultiValueForRewind>();
         rb = GetComponent<Rigidbody2D>();
         menus = GameObject.Find("MenuHandler").GetComponent<BattleCat.Menus>();
+        player = GetComponent<PlayerScript>();
     }
 
     // Update is called once per frame
@@ -38,6 +43,11 @@ public class Rewind : MonoBehaviour
         //starting rewind
         isRewinding = true;
         rb.isKinematic = true;
+        if (!hasPlayedSound)
+        {
+            player.PlaySound(rewindSound);
+            hasPlayedSound = true;
+        }
     }
 
     public void StopRewinding()
@@ -45,6 +55,7 @@ public class Rewind : MonoBehaviour
         //stoprewinding
         isRewinding = false;
         rb.isKinematic = false;
+        hasPlayedSound = false;
     }
 
     private void FixedUpdate()
@@ -53,6 +64,8 @@ public class Rewind : MonoBehaviour
         if (isRewinding)
         {
             RewindLol();
+     
+            
         }
         else
         {
@@ -76,7 +89,8 @@ public class Rewind : MonoBehaviour
 
     void RewindLol()
     {
-       
+
+    
         //rewinds the player position
         if (menus.playing)
         {

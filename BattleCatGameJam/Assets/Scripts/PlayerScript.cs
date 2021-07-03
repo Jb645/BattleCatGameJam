@@ -15,6 +15,7 @@ public class PlayerScript : MonoBehaviour
     public float moveing;
     Rewind rewind;
     float latestDirection = 0;
+    AudioSource audioUwU;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +24,7 @@ public class PlayerScript : MonoBehaviour
         allowJump = true;
         animator = GetComponent<Animator>();
         rewind = GetComponent<Rewind>();
+        audioUwU = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -114,4 +116,8 @@ public class PlayerScript : MonoBehaviour
       
     }
 
+    public void PlaySound(AudioClip sound)
+    {
+        audioUwU.PlayOneShot(sound);
+    }
 }
