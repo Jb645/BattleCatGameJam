@@ -16,6 +16,10 @@ public class PlayerScript : MonoBehaviour
     Rewind rewind;
     public float latestDirection = 0;
     AudioSource audioUwU;
+    GameObject player;
+    BattleCat.timer timerr;
+    BattleCat.dialoge dia;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +29,8 @@ public class PlayerScript : MonoBehaviour
         animator = GetComponent<Animator>();
         rewind = GetComponent<Rewind>();
         audioUwU = GetComponent<AudioSource>();
+        player = GameObject.Find("Player");
+        timerr = player.GetComponent<BattleCat.timer>();
     }
 
     // Update is called once per frame
@@ -117,6 +123,17 @@ public class PlayerScript : MonoBehaviour
     {
         //stops your verlociy on collion with an object
         playerRb.velocity = Vector2.up * 0;
+
+        if (collision.gameObject.CompareTag("win"))
+        {
+            timerr.addTime = false;
+            if (timerr.timePassed < 80)
+            {
+                animator.SetTrigger("die");
+
+            }
+
+        }
       
     }
 
