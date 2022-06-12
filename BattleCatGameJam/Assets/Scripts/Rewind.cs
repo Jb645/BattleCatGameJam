@@ -1,117 +1,121 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Rewind : MonoBehaviour
+namespace BattleCat
 {
+    public class Rewind : MonoBehaviour
+    {
 
-    public bool isRewinding;
+        public bool isRewinding;
 
-    List<MultiValueForRewind> multiValueForRewinds;
+        private List<MultiValueForRewind> _multiValueForRewinds;
 
-    Rigidbody2D rb;
+        private Rigidbody2D _rb;
 
-    [SerializeField] float recordTime = 3f;
+        [SerializeField] private float recordTime = 3f;
 
-    private BattleCat.Menus menus;
+        private BattleCat.Menus _menus;
 
-    PlayerScript player;
-    [SerializeField] AudioClip rewindSound;
-    bool hasPlayedSound;
+        private PlayerScript _player;
+        [SerializeField]private  AudioClip rewindSound;
+        private bool _hasPlayedSound;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        multiValueForRewinds = new List<MultiValueForRewind>();
-        rb = GetComponent<Rigidbody2D>();
-        menus = GameObject.Find("MenuHandler").GetComponent<BattleCat.Menus>();
-        player = GetComponent<PlayerScript>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //start to rewind when your att y -4
-        if (transform.position.y < -4 || transform.position.y > 15)
+    
+        // Start is called before the first frame update
+        private void Start()
         {
-            StartRewind();
+            _multiValueForRewinds = new List<MultiValueForRewind>();
+            _rb = GetComponent<Rigidbody2D>();
+            _menus = GameObject.Find("MenuHandler").GetComponent<BattleCat.Menus>();
+            _player = GetComponent<PlayerScript>();
+        
         }
-    }
 
-    public void StartRewind()
-    {
-        //starting rewind
-        isRewinding = true;
-        rb.isKinematic = true;
-        if (!hasPlayedSound)
+        // Update is called once per frame
+        private void Update()
         {
-            player.PlaySound(rewindSound);
-            hasPlayedSound = true;
+            var position = transform.position;
+            var youFall = position.y < -4 || position.y > 15;
+        
+            if (youFall)
+            {
+                StartRewind();
+            }
         }
-    }
 
-    public void StopRewinding()
-    {
-        //stoprewinding
-        isRewinding = false;
-        rb.isKinematic = false;
-        hasPlayedSound = false;
-    }
-
-    private void FixedUpdate()
-    {
-        //rewind or record
-        if (isRewinding)
+        private void StartRewind()
         {
-            RewindLol();
+            //starting rewind
+            isRewinding = true;
+            _rb.isKinematic = true;
+        
+            if (_hasPlayedSound) return;
+            _player.PlaySound(rewindSound);
+            _hasPlayedSound = true;
+        }
+
+        private void StopRewinding()
+        {
+            //stop rewinding
+            isRewinding = false;
+            _rb.isKinematic = false;
+            _hasPlayedSound = false;
+        }
+
+        private void FixedUpdate()
+        {
+            //rewind or record
+            if (isRewinding)
+            {
+                RewindLol();
      
             
-        }
-        else
-        {
-            Record();
-        }
-    }
-
-    void Record()
-    {
-        //gets thier position
-        if (menus.playing)
-        {
-            if (multiValueForRewinds.Count > Mathf.Round(recordTime / Time.fixedDeltaTime))
-            {
-                multiValueForRewinds.RemoveAt(multiValueForRewinds.Count - 1);
-            }
-            multiValueForRewinds.Insert(0, new MultiValueForRewind(transform.position, player.moveing, player.latestDirection));
-        }
-
-    }
-
-    void RewindLol()
-    {
-
-    
-        //rewinds the player position
-        if (menus.playing)
-        {
-            if (multiValueForRewinds.Count > 0)
-            {
-                MultiValueForRewind value = multiValueForRewinds[0];
-                transform.position = value.positions;
-                multiValueForRewinds.RemoveAt(0);
-                rb.velocity = Vector2.up * 0;
-                rb.velocity = Vector2.left * 0;
-                player.moveing = value.moveing;
-                player.latestDirection = value.lastDirections;
             }
             else
             {
-                //stops the rewind if thier isnt anything more to rewind
-                StopRewinding();
+                Record();
             }
         }
 
+        private void Record()
+        {
+            //gets thier position
+            if (!_menus.playing) return;
+            if (_multiValueForRewinds.Count > Mathf.Round(recordTime / Time.fixedDeltaTime))
+            {
+                _multiValueForRewinds.RemoveAt(_multiValueForRewinds.Count - 1);
+            }
+            _multiValueForRewinds.Insert(0, new MultiValueForRewind(transform.position, _player.moving, _player.latestDirection));
+
+        }
+
+        private void RewindLol()
+        {
+            //rewinds the player position
+            if (!_menus.playing) return;
+            var rewindingHasJuice = _multiValueForRewinds.Count > 0;
+        
+            if (rewindingHasJuice)
+            {
+                var value = _multiValueForRewinds[0];
+                transform.position = value.Positions;
+                _multiValueForRewinds.RemoveAt(0);
+                var velocity = _rb.velocity;
+                velocity = Vector2.up * 0;
+                velocity = Vector2.left * 0;
+                _rb.velocity = velocity;
+                _player.moving = value.moveing;
+                _player.latestDirection = value.lastDirections;
+            }
+            else
+            {
+                StopRewinding();
+            }
+        
+        
+
+
+        }
 
     }
-
 }

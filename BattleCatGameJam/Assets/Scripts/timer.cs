@@ -9,25 +9,17 @@ namespace BattleCat
     {
 
         public float timePassed;
-        [SerializeField] float time;
-        public bool addTime;
-        [SerializeField] TextMeshProUGUI timeOwO;
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
+        [SerializeField] private float time;
+        public bool timePasses;
+        [SerializeField] private TextMeshProUGUI timeOwO;
 
-        // Update is called once per frame
-        void Update()
+        
+        private void Update()
         {
-        if (addTime)
-            {
-                time += Time.deltaTime;
-            }
+            if (timePasses) time += Time.deltaTime;
 
             timePassed = Mathf.Round(time);
-            timeOwO.text = "Time: " + timePassed;
+                timeOwO.text = "Time: " + timePassed;
         }
     }
 }

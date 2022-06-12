@@ -11,72 +11,80 @@ namespace BattleCat
 
         timer time;
 
-        string start = "ello (prees space to continue)";
-        string lore = "im jerry and im too poor (next)";
-        string lore2 = "to die, so im asking (next)";
-        string lore3 = "you to help me with it";
-        string ins1 = "use Wasd + space to move me";
-        string ins2 = "reach to end";
-        string ins3 = "pwz UwU";
+        private const string start = "ello (prees space to continue)";
+        private const string lore = "im jerry and im too poor (next)";
+        private const string lore2 = "to die, so im asking (next)";
+        private const string lore3 = "you to help me with it";
+        private const string ins1 = "use Wasd + space to move me";
+        private const string ins2 = "reach to end";
+        private const string ins3 = "pwz UwU";
+        private const string sidenote = "oh, and btw unity or github delated some of our files and we cant";
+        private const string sidenote2 = "revert back, so if this isnt finished that prob why :(";
 
-        string finalWin = "*dies* ty.";
-        string finalFail = "u did compleate it in under 80s, trash";
+        private const string finalWin = "*dies* ty.";
+        private const string finalFail = "u did compleate it in under 80s, trash";
 
         [SerializeField] GameObject dialogue;
 
-       Menus menu;
+        private Menus _menu;
 
-        List<string> pog;
+        private List<string> _pog;
         private void Awake()
         {
-            menu = GetComponent<Menus>();
-            
-            List<string> text = new List<string>();
-            text.Add(start);
-            text.Add(lore);
-            text.Add(lore2);
-            text.Add(lore3);
-            text.Add(ins1);
-            text.Add(ins2);
-            text.Add(ins3);
+            _menu = GetComponent<Menus>();
 
-            pog = text;
+            var text = new List<string>
+            {
+                start,
+                lore,
+                lore2,
+                lore3,
+                ins1,
+                ins2,
+                ins3,
+                sidenote,
+                sidenote2
+            };
+
+            _pog = text;
 
             
         }
         
         
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             dialogue.SetActive(true);
-            textOwO.text = pog[0];
-            menu.playing = false;
+            textOwO.text = _pog[0];
+            _menu.playing = false;
             time = GameObject.Find("Player").GetComponent<timer>();
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
         if (Input.GetKeyDown(KeyCode.Space))
+        {
+            var thereIsDialogueRemaining = _pog.Count > 0;
+            
+            if (thereIsDialogueRemaining)
             {
-                if (pog.Count > 0)
-                {
-                    pog.RemoveAt(0);
-                }
-                else
-                {
-                    dialogue.SetActive(false);
-                    menu.playing = true;
-                    time.addTime = true;
-                }
-
+                _pog.RemoveAt(0);
+            }
+            else
+            {
+                dialogue.SetActive(false);
+                _menu.playing = true;
+                time.timePasses = true;
             }
 
-            if (pog.Count != 0)
-            {
-                textOwO.text = pog[0];
-            }
+        }
+
+        if (_pog.Count != 0)
+        {
+            textOwO.text = _pog[0];
+        }
 
         }
 
